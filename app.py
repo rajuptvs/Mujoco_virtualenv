@@ -7,7 +7,10 @@ app = Flask(__name__)
 
 class MujocoSimulation:
     def __init__(self):
-        pass
+        model = load_model_from_path('ball.xml')
+        self.sim = MjSim(model)
+        self.viewer = MjViewer(self.sim)
+
 
     def move_right(self):
         print("right right")
@@ -32,9 +35,7 @@ class MujocoSimulation:
 
     def run_simulation(self, sim_running):
         # Load the Mujoco model and create a simulation
-        model = load_model_from_path('ball.xml')
-        self.sim = MjSim(model)
-        self.viewer = MjViewer(self.sim)
+
 
         while sim_running.value:
             self.sim.step()
