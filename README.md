@@ -1,8 +1,8 @@
 # Mujoco_virtualenv
 
 ## ToDo's 
-* [ ] Create simple microservices for the movement
-* [ ] hello
+* [X] Create simple microservices for the movement (API endpoints are working (Postman) but having issues interacting with mujoco)[code in microservices branch] 
+* [ ] Migrate current code to dm_control instead of Mujoco_py to test other rendering options
 
 ## Current Challenges
 * [ ] There is a weird issue happening when working with threads/multiprocess with microservices (in a separate branch) 
