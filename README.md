@@ -1,5 +1,13 @@
 # Mujoco_virtualenv
 
+## ToDo's 
+* [ ] Create simple microservices for the movement
+* [ ] hello
+
+## Current Challenges
+* [ ] There is a weird issue happening when working with threads/multiprocess with microservices (in a separate branch) 
+* [ ] Planning to migrate the code to dmcontrol (as it supports multiple rendering option)
+
 ### Installation instructions : 
 pip install -r requirements.txt 
 
