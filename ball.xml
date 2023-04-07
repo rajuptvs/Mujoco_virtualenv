@@ -4,26 +4,27 @@
     <worldbody>
         <camera euler="1 1 0" fovy="40" name="rgb" pos="1 1 2.5"></camera>
         <camera pos="0.000 -18.668 18.693" xyaxes="1.000 -0.000 0.000 0.000 0.707 0.707"/>
-    <body name="ball" pos="0 0 0.3">
-        <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
-        <geom name="balls" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
-    </body>
-    <body name="ball1" pos="1 0 0.3">
-        <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
-        <geom name="balls1" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
-    </body>
-    <body name="ball2" pos="2 0 0.3">
-        <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
-        <geom name="balls2" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
-    </body>
-        <body name="ball3" pos="3 0 0.3">
-        <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
-        <geom name="balls3" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
-    </body>
+        <body name="ball" pos="0 0 0.3">
+            <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
+            <geom name="sphero1" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+        </body>
+        <body name="ball1" pos="1 0 0.3">
+            <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
+            <geom name="sphero2" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+        </body>
+        <body name="ball2" pos="2 0 0.3">
+            <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
+            <geom name="sphero3" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+        </body>
+            <body name="ball3" pos="3 0 0.3">
+            <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
+            <geom name="sphero4" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+        </body>
 
         <body name="floor" pos="0 0 0.025">
-            <geom condim="3" size="10 10 0.02" rgba="0.8 0.8 0.8 0.2" type="box"/>
+            <geom condim="3" size="25 10 0.02" rgba="0 1 0 1" type="plane"/>
         </body>
+
     </worldbody>
 </mujoco>
 

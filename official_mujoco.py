@@ -26,6 +26,9 @@ vel_indexes_dict = {0: [0, 1], 1: [6, 7], 2: [12, 13], 3: [18, 19]}
 ### Dictionary to store indexes of x and y positions of each ball
 pos_indexes_dict = {0: [0, 1], 1: [7, 8], 2: [14, 15], 3: [21, 22]}
 
+### Dictionary to store model names based on index
+model_names_dict = {0: 'sphero1', 1: 'sphero2', 2: 'sphero3', 3: 'sphero4'}
+
 _overlay = {}
 def add_overlay(gridpos, text1, text2):
 
@@ -122,6 +125,7 @@ def keyboard(window, key, scancode, act, mods):
             test.append(i)
         print(len(test))
     elif act != glfw.RELEASE and key == glfw.KEY_F1:
+        model.geom(model_names_dict[current_ball]).rgba=[1,1,1,1]
         if current_ball==0:
             current_ball=3
         else:
@@ -130,10 +134,12 @@ def keyboard(window, key, scancode, act, mods):
         vel_indexes=vel_indexes_dict[current_ball]
         x_vel_index,y_vel_index= get_indexes_data(vel_indexes)
         x_pos,y_pos=get_position_data(indexes)
+        print(model.geom(model_names_dict[current_ball]).rgba)
+        model.geom(model_names_dict[current_ball]).rgba=[1,0,0,1]
         # print(x_pos,y_pos)   
         
     elif act != glfw.RELEASE and key == glfw.KEY_F2:
-        
+        model.geom(model_names_dict[current_ball]).rgba=[1,1,1,1]
         if current_ball<3:
             current_ball+=1                                                                            
         else:
@@ -142,6 +148,7 @@ def keyboard(window, key, scancode, act, mods):
         vel_indexes=vel_indexes_dict[current_ball]
         x_vel_index,y_vel_index= get_indexes_data(vel_indexes)
         x_pos,y_pos=get_position_data(indexes)
+        model.geom(model_names_dict[current_ball]).rgba=[1,0,0,1]
         # print(x_pos,y_pos)
         
     elif act != glfw.RELEASE and key == glfw.KEY_0:
@@ -226,10 +233,10 @@ model = mj.MjModel.from_xml_path(xml_path)  # MuJoCo model
 data = mj.MjData(model)                # MuJoCo data
 cam = mj.MjvCamera()                        # Abstract camera
 opt = mj.MjvOption()                        # visualization options
-
+model.geom(model_names_dict[current_ball]).rgba=[1,0,0,1]
 # Init GLFW, create window, make OpenGL context current, request v-sync
 glfw.init()
-window = glfw.create_window(1200, 900, "Demo", None, None)
+window = glfw.create_window(1920, 1080, "Demo", None, None)
 glfw.make_context_current(window)
 glfw.swap_interval(1)
 
