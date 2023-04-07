@@ -106,22 +106,22 @@ def keyboard(window, key, scancode, act, mods):
     elif act == glfw.PRESS and key == glfw.KEY_ESCAPE:
         print("Terminating the simulation")
         glfw.set_window_should_close(window, True)
-    elif act == glfw.PRESS and key == glfw.KEY_RIGHT:
+    elif act != glfw.RELEASE and key == glfw.KEY_RIGHT:
         data.qvel[x_vel_index]=0.6
-    elif act == glfw.PRESS and key == glfw.KEY_UP:
+    elif act != glfw.RELEASE and key == glfw.KEY_UP:
         data.qvel[y_vel_index]=0.6
-    elif act == glfw.PRESS and key == glfw.KEY_LEFT:
+    elif act != glfw.RELEASE and key == glfw.KEY_LEFT:
         data.qvel[x_vel_index]=-0.6
-    elif act == glfw.PRESS and key == glfw.KEY_DOWN:
+    elif act != glfw.RELEASE and key == glfw.KEY_DOWN:
         data.qvel[y_vel_index]=-0.6
-    elif act == glfw.PRESS and key == glfw.KEY_SPACE:
+    elif act != glfw.RELEASE and key == glfw.KEY_SPACE:
         ball_pos = data.qpos
         test=[]
         for i in ball_pos:
             i=round(i, 6)
             test.append(i)
         print(len(test))
-    elif act == glfw.PRESS and key == glfw.KEY_F1:
+    elif act != glfw.RELEASE and key == glfw.KEY_F1:
         if current_ball==0:
             current_ball=3
         else:
@@ -132,7 +132,7 @@ def keyboard(window, key, scancode, act, mods):
         x_pos,y_pos=get_position_data(indexes)
         # print(x_pos,y_pos)   
         
-    elif act == glfw.PRESS and key == glfw.KEY_F2:
+    elif act != glfw.RELEASE and key == glfw.KEY_F2:
         
         if current_ball<3:
             current_ball+=1                                                                            
@@ -144,7 +144,7 @@ def keyboard(window, key, scancode, act, mods):
         x_pos,y_pos=get_position_data(indexes)
         # print(x_pos,y_pos)
         
-    elif act==glfw.PRESS and key == glfw.KEY_0:
+    elif act != glfw.RELEASE and key == glfw.KEY_0:
         ### Use this key to debug functions and code as you experiment
         print('Debugging Key')
        
