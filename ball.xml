@@ -2,14 +2,29 @@
 <mujoco>
     <option timestep="0.005" />
     <worldbody>
-        <camera euler="0 0 0" fovy="40" name="rgb" pos="0 0 2.5"></camera>
-        
-    <body name="ball" pos="2.3705164087988164 5.984297619803903 0.3">
+        <camera euler="1 1 0" fovy="40" name="rgb" pos="1 1 2.5"></camera>
+        <camera pos="0.000 -18.668 18.693" xyaxes="1.000 -0.000 0.000 0.000 0.707 0.707"/>
+    <body name="ball" pos="0 0 0.3">
         <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
-        <geom mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+        <geom name="balls" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
     </body>
+    <body name="ball1" pos="1 0 0.3">
+        <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
+        <geom name="balls1" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+    </body>
+    <body name="ball2" pos="2 0 0.3">
+        <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
+        <geom name="balls2" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+    </body>
+        <body name="ball3" pos="3 0 0.3">
+        <joint type="free" stiffness="0" damping="0" frictionloss="0.1" armature="0"/>
+        <geom name="balls3" mass="1.0" friction="1 1 1" pos="0 0 0" rgba="1 1 1 1" size="0.15" type="sphere"/>
+    </body>
+
         <body name="floor" pos="0 0 0.025">
             <geom condim="3" size="10 10 0.02" rgba="0.8 0.8 0.8 0.2" type="box"/>
         </body>
     </worldbody>
 </mujoco>
+
+
