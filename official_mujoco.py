@@ -2,6 +2,7 @@ import mujoco as mj
 from mujoco.glfw import glfw
 import numpy as np
 import os
+import time
 
 xml_path = 'ball.xml' #xml file (assumes this is in the same folder as this file)
 simend = 100 #simulation time
@@ -19,7 +20,16 @@ x_pos=0
 y_pos=0
 x_vel_index=0
 y_vel_index=1
-
+counter=0
+import math
+def move_and_rotate(current_coords, angle, forward):
+    forward+=angle
+    angle= angle
+    x, y, z = current_coords
+    x_prime = math.cos(angle)
+    y_prime = math.sin(angle)
+    z_prime = 0
+    return  forward, [x_prime, y_prime, z_prime]
 ## Dictionary to store indexes of x and y velocites of each ball
 vel_indexes_dict = {0: [0, 1], 1: [6, 7], 2: [12, 13], 3: [18, 19]}
 
@@ -27,8 +37,9 @@ vel_indexes_dict = {0: [0, 1], 1: [6, 7], 2: [12, 13], 3: [18, 19]}
 pos_indexes_dict = {0: [0, 1], 1: [7, 8], 2: [14, 15], 3: [21, 22]}
 
 ### Dictionary to store model names based on index
-model_names_dict = {0: 'sphero1', 1: 'sphero2', 2: 'sphero3', 3: 'sphero4'}
+model_geom_names_dict = {0: 'sphero1', 1: 'sphero2', 2: 'sphero3', 3: 'sphero4'}
 
+### Dictionary to store geom
 _overlay = {}
 def add_overlay(gridpos, text1, text2):
 
@@ -52,6 +63,7 @@ def get_indexes_data(indexes):
 
 #HINT1: add the overlay here
 def create_overlay(model,data):
+    global times
     topleft = mj.mjtGridPos.mjGRID_TOPLEFT
     topright = mj.mjtGridPos.mjGRID_TOPRIGHT
     bottomleft = mj.mjtGridPos.mjGRID_BOTTOMLEFT
@@ -87,6 +99,10 @@ def create_overlay(model,data):
         bottomright,
         "Current Position"," X coordinates: "+str(x_pos) + " Y Coordinates: " + str(y_pos) ,
     )
+    add_overlay(
+        topleft,
+        "time",str(data.time) ,
+    )
 
 def init_controller(model,data):
     #initialize the controller here. This function is called once, in the beginning
@@ -95,6 +111,10 @@ def init_controller(model,data):
 def controller(model, data):
     #put the controller here. This function is called inside the simulation.
     pass
+def reset_forces():
+    global current_ball
+    data.body(model_geom_names_dict[current_ball]).xfrc_applied[0:2] = [0, 0]
+    print("resetting forces")
 
 def keyboard(window, key, scancode, act, mods):
     global current_ball
@@ -125,7 +145,7 @@ def keyboard(window, key, scancode, act, mods):
             test.append(i)
         print(len(test))
     elif act != glfw.RELEASE and key == glfw.KEY_F1:
-        model.geom(model_names_dict[current_ball]).rgba=[1,1,1,1]
+        model.geom(model_geom_names_dict[current_ball]).rgba=[1,1,1,1]
         if current_ball==0:
             current_ball=3
         else:
@@ -134,12 +154,12 @@ def keyboard(window, key, scancode, act, mods):
         vel_indexes=vel_indexes_dict[current_ball]
         x_vel_index,y_vel_index= get_indexes_data(vel_indexes)
         x_pos,y_pos=get_position_data(indexes)
-        print(model.geom(model_names_dict[current_ball]).rgba)
-        model.geom(model_names_dict[current_ball]).rgba=[1,0,0,1]
+        print(model.geom(model_geom_names_dict[current_ball]).rgba)
+        model.geom(model_geom_names_dict[current_ball]).rgba=[1,0,0,1]
         # print(x_pos,y_pos)   
         
     elif act != glfw.RELEASE and key == glfw.KEY_F2:
-        model.geom(model_names_dict[current_ball]).rgba=[1,1,1,1]
+        model.geom(model_geom_names_dict[current_ball]).rgba=[1,1,1,1]
         if current_ball<3:
             current_ball+=1                                                                            
         else:
@@ -147,15 +167,22 @@ def keyboard(window, key, scancode, act, mods):
         indexes=pos_indexes_dict[current_ball]
         vel_indexes=vel_indexes_dict[current_ball]
         x_vel_index,y_vel_index= get_indexes_data(vel_indexes)
+        print(indexes)
         x_pos,y_pos=get_position_data(indexes)
-        model.geom(model_names_dict[current_ball]).rgba=[1,0,0,1]
+        model.geom(model_geom_names_dict[current_ball]).rgba=[1,0,0,1]
         # print(x_pos,y_pos)
         
     elif act != glfw.RELEASE and key == glfw.KEY_0:
         ### Use this key to debug functions and code as you experiment
         print('Debugging Key')
-       
+        # data.xfrc_applied[6][0]=1
+        print(model.body('sphero1'))
+        # print(data.body('sphero1').xpos)
         
+        # data.body(model_geom_names_dict[current_ball]).xfrc_applied[0]=1
+    elif act!=glfw.RELEASE and key==glfw.KEY_DELETE:
+        reset_forces()
+
         
         
 def mouse_button(window, button, act, mods):
@@ -233,13 +260,13 @@ model = mj.MjModel.from_xml_path(xml_path)  # MuJoCo model
 data = mj.MjData(model)                # MuJoCo data
 cam = mj.MjvCamera()                        # Abstract camera
 opt = mj.MjvOption()                        # visualization options
-model.geom(model_names_dict[current_ball]).rgba=[1,0,0,1]
+model.geom(model_geom_names_dict[current_ball]).rgba=[1,0,0,1]
 # Init GLFW, create window, make OpenGL context current, request v-sync
 glfw.init()
 window = glfw.create_window(1920, 1080, "Demo", None, None)
 glfw.make_context_current(window)
 glfw.swap_interval(1)
-
+times=data.time+2
 # initialize visualization data structures
 mj.mjv_defaultCamera(cam)
 mj.mjv_defaultOption(opt)
@@ -270,7 +297,10 @@ def simulation_loop():
     global y_pos
     global x_vel_index
     global y_vel_index
+    global times
+    global counter
     while not glfw.window_should_close(window):
+        counter+=1
         time_prev = data.time
 
         while (data.time - time_prev < 1.0/60.0):
@@ -283,6 +313,9 @@ def simulation_loop():
             vel_indexes=vel_indexes_dict[current_ball]
             x_vel_index,y_vel_index= get_indexes_data(vel_indexes)
             x_pos,y_pos=get_position_data(indexes)
+            
+    
+
 
             
 
